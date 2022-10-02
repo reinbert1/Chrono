@@ -16,11 +16,11 @@ Button2 *pBtn = nullptr;
 int loop_mode = 0;
 
 enum {
-    WIFI_SCAN = 32,
-    VOLTAG_DETECT = 33,
-    DEEPSLEEP = 34,
-    KEY1 = 36,
-    KEY2 = 39,
+    RIGHT = 32,
+    LEFT = 33,
+    UP = 34,
+    DOWN = 36,
+    START = 39,
 };
 
 
@@ -55,53 +55,77 @@ void battery_test()
     delay(1000);
 }
 
-void wifi_test()
+//void wifi_test()
+//{
+//    oled.clear();
+//    oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "wifi scan");
+//    oled.display();
+//
+//    WiFi.mode(WIFI_STA);
+//    WiFi.disconnect();
+//    int n = WiFi.scanNetworks();
+//    oled.clear();
+//    if (n == 0) {
+//        oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "no networks found");
+//        oled.display();
+//        return;
+//    }
+//    oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "Found" + String(n) + "net");
+//    oled.display();
+//}
+
+
+//void showVoltage()
+//{
+//    static uint64_t timeStamp = 0;
+//    if (millis() - timeStamp > 1000) {
+//        timeStamp = millis();
+//        uint16_t v = analogRead(ADC_PINS);
+//        float battery_voltage = ((float)v / 4095.0) * 2.0 * 3.3 * (vref / 1000.0);
+//#ifdef ENABLE_SSD1306
+//        String voltage = "Voltage :" + String(battery_voltage) + "V";
+//        oled.clear();
+//        oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, voltage);
+//        oled.display();
+//#else
+//        Serial.println("DEBUG: Value: " + String(v) + " ,Battery Voltage is" + String(battery_voltage) + "V");
+//#endif
+//    }
+//}
+
+void click_up()
 {
     oled.clear();
-    oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "wifi scan");
-    oled.display();
-
-    WiFi.mode(WIFI_STA);
-    WiFi.disconnect();
-    int n = WiFi.scanNetworks();
-    oled.clear();
-    if (n == 0) {
-        oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "no networks found");
-        oled.display();
-        return;
-    }
-    oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "Found" + String(n) + "net");
+    oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "Up");
     oled.display();
 }
 
-void enter_sleep()
+void click_right()
 {
     oled.clear();
-    oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "enter sleep 10 sec");
+    oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "Right");
     oled.display();
-    delay(1000);
-    oled.clear();
-    oled.display();
-    system_deep_sleep(10 * 1000 * 1000);
 }
 
-
-void showVoltage()
+void click_left()
 {
-    static uint64_t timeStamp = 0;
-    if (millis() - timeStamp > 1000) {
-        timeStamp = millis();
-        uint16_t v = analogRead(ADC_PINS);
-        float battery_voltage = ((float)v / 4095.0) * 2.0 * 3.3 * (vref / 1000.0);
-#ifdef ENABLE_SSD1306
-        String voltage = "Voltage :" + String(battery_voltage) + "V";
-        oled.clear();
-        oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, voltage);
-        oled.display();
-#else
-        Serial.println("DEBUG: Value: " + String(v) + " ,Battery Voltage is" + String(battery_voltage) + "V");
-#endif
-    }
+    oled.clear();
+    oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "Left");
+    oled.display();
+}
+
+void click_down()
+{
+    oled.clear();
+    oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "Down");
+    oled.display();
+}
+
+void click_start()
+{
+    oled.clear();
+    oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "Start");
+    oled.display();
 }
 
 #ifdef ENABLE_BUTTON
@@ -165,26 +189,24 @@ void loop()
 {
     btn_loop();
     switch (loop_mode) {
-    case WIFI_SCAN:
-        wifi_test();
+    case RIGHT:
+        click_right();
         loop_mode = -1;
         break;
-    case VOLTAG_DETECT:
-        showVoltage();
-        break;
-    case DEEPSLEEP:
-        enter_sleep();
-        break;
-    case KEY1:
-        oled.clear();
-        oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "DOWN");
-        oled.display();
+    case LEFT:
+        click_left();
         loop_mode = -1;
         break;
-    case KEY2:
-        oled.clear();
-        oled.drawString(oled.getWidth() / 2, oled.getHeight() / 2, "OK");
-        oled.display();
+    case UP:
+        click_up();
+        loop_mode = -1;
+        break;
+    case DOWN:
+        click_down();
+        loop_mode = -1;
+        break;
+    case START:
+        click_start();
         loop_mode = -1;
         break;
     default:
