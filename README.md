@@ -1,4 +1,4 @@
-# Chrono - LilyGO TTGO T-Controller (Arduino)
+# ⏱️ Chrono - LilyGO TTGO T-Controller (Arduino)
 ## Project goal
 _The goal of this project is to develop a chronometer for sprinters. (This can of course be used in other sports)_
 
